@@ -1,12 +1,14 @@
 import re
 import aprslib
 import requests
+import time
 
 callsign = 'YOUR_APRSIS_CALLSIGN'
 send_to = 'YOUR_APRS_CALLSIGN_TO_SEND_TO_WITH_SSID'
 aprs_passcode = 'YOUR_APRSIS_PASSCODE'
 mmdvm_ip = 'FULL URL TO YOUR MMDVM'
 pager_id = 'YOUR PAGER ID'
+waitTime = 60 #Your delay in seconds between message checks, let's not hammer the crap out of the MMDVM hum?
 
 def checkMSG():
 
@@ -28,5 +30,6 @@ while True:
             AIS = aprslib.IS(callsign, aprs_passcode, port=14580)
             AIS.connect()
             AIS.sendall("DAPNET>APRS,TCPIP*::" + send_to.ljust(9) + ":" + checkMSG())
+            time.sleep(waitTime)
         except:
             pass
