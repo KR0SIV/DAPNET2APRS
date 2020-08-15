@@ -23,15 +23,16 @@ def checkMSG():
 
 value = 0
 while True:
-    old_value, value = value, checkMSG()
     print('Waiting for ' + str(waitTime) + ' seconds to be nice')
     time.sleep(waitTime)
+    old_value, value = value, checkMSG()
     if value != old_value:
         try:
             print("Forwarding to APRS: " + checkMSG())
             AIS = aprslib.IS(callsign, aprs_passcode, port=14580)
             AIS.connect()
             AIS.sendall("DAPNET>APRS,TCPIP*::" + send_to.ljust(9) + ":" + checkMSG())
-
         except:
             pass
+    else:
+        print('No new messages')
