@@ -23,7 +23,10 @@ value = 0
 while True:
     old_value, value = value, checkMSG()
     if value != old_value:
-        print("Forwarding to APRS: " + checkMSG())
-        AIS = aprslib.IS(callsign, aprs_passcode, port=14580)
-        AIS.connect()
-        AIS.sendall("DAPNET>APRS,TCPIP*::" + send_to.ljust(9) + ":" + checkMSG())
+        try:
+            print("Forwarding to APRS: " + checkMSG())
+            AIS = aprslib.IS(callsign, aprs_passcode, port=14580)
+            AIS.connect()
+            AIS.sendall("DAPNET>APRS,TCPIP*::" + send_to.ljust(9) + ":" + checkMSG())
+        except:
+            pass
